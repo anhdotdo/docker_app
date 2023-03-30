@@ -14,13 +14,6 @@ node{
     sh 'docker push anhdo98/my-docker-app:1002v2'
   }
   
-  stage("Remove the old container"){
-    def dockerRm = 'docker container rm -f my-node-app'
-    sshagent(['dev-server']) {
-      sh "ssh -o StrictHostKeyChecking=no ec2-user@34.205.29.85 ${dockerRm}"
-    }
-  }
-  
   stage("Deploy docker image to Tomcat server"){
     def dockerRun = 'docker run -d -p 8089:5000 --name my-node-app anhdo98/my-docker-app:1002v2'
     sshagent(['dev-server']) {
